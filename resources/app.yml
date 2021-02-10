@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${app_name}
+  labels:
+    app.kubernetes.io/name: ${app_name}
+    app.kubernetes.io/version: "0.0.1"
+    app.kubernetes.io/managed-by: Console
+spec:
+  replicas: ${replicas}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ${app_name}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ${app_name}
+    spec:
+      containers:
+        - name: ${app_name}-container
+          securityContext:
+            {}
+          image: "${docker_image}"
+          imagePullPolicy: IfNotPresent
+          env:
+          ports:
+            - name: http
+              containerPort: ${container_port}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: ${container_port}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: ${container_port}
+          resources:
+            {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${app_name}-service
+  labels:
+    app.kubernetes.io/name: ${app_name}
+    app.kubernetes.io/instance: initial
+    app.kubernetes.io/version: "0.0.1"
+spec:
+  ports:
+  - port: 80
+    targetPort: ${container_port}
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: ${app_name}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ${app_name}
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+    kubernetes.io/ingress.class: traefik
+    #traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+  - host: ${hostname}.edge.hsdp.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ${app_name}-service
+          servicePort: 80
