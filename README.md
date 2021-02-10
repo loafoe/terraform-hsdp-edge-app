@@ -1,27 +1,6 @@
 # terraform-hsdp-stl-app
 This Terraform module deploys an app to your STL
 
-## Example usage
-
-Deploy a grafana frontend as `http://grafana.edge.hsdp.io`
-
-```hcl
-provider "hsdp" {
-  region = "dev"
-  uaa_username = var.uaa_username
-  uaa_password = var.uaa_password
-}
-
-module "app" {
-  source = "philips-labs/hsdp/stl-app"
-  version = "0.1.0"
-  
-  serial_number = var.serial_number
-  app_name = "grafana"
-  docker_image = "grafana/grafana:latest"
-  container_port = 3000
-}
-```
 
 ## Requirements
 
