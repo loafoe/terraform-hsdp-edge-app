@@ -1,5 +1,5 @@
 module "app" {
-  source = "philips-labs/hsdp/stl-app"
+  source  = "philips-labs/stl-app/hsdp"
   version = "0.1.0"
 
   serial_number = var.serial_number
