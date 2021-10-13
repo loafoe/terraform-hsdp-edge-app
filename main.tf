@@ -1,4 +1,4 @@
-resource "hsdp_stl_app" "app" {
+resource "hsdp_edge_app" "app" {
   serial_number = var.serial_number
  
   name = "${var.app_name}.yml"
