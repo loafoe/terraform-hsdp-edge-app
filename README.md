@@ -1,4 +1,4 @@
-# terraform-hsdp-stl-app
+# terraform-hsdp-edge-app
 This Terraform module deploys an app to your STL
 
 
@@ -12,7 +12,7 @@ This Terraform module deploys an app to your STL
 
 | Name | Version |
 |------|---------|
-| hsdp | >= 0.12.1 |
+| hsdp | >= 0.22.2 |
 
 ## Inputs
 
